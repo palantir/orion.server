@@ -5,7 +5,6 @@ import org.eclipse.orion.server.authentication.oauth.OAuthParamsFactory;
 import org.eclipse.orion.server.authentication.oauth.github.GitHubOAuthParamsFactory;
 
 /**
- *
  * @author mwlodarczyk
  *
  */

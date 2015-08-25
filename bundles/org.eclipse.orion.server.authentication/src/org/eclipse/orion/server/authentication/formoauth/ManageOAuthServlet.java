@@ -113,22 +113,24 @@ public class ManageOAuthServlet extends HttpServlet {
 			throw new OAuthException("Plug-in context non available");
 		}
 
-		String filter = "(provider=" + providerName + ")";
+		String filter = "(" + OAuthParamsFactory.PROVIDER + "=" + providerName + ")";
 		ServiceReference oauthServiceReferences[];
 		try {
 			oauthServiceReferences = ctx.getServiceReferences(OAuthParamsFactory.class.getName(), filter);
-		}
-		catch (InvalidSyntaxException e) {
-			throw new OAuthException("Internal framework error");
+		} catch (InvalidSyntaxException e) {
+			throw new OAuthException(e);
 		}
 		if (oauthServiceReferences == null || oauthServiceReferences.length == 0) {
 			throw new OAuthException("Plug-in for OAuth provider <" + providerName + "> is not running");
+		}
+		else if (oauthServiceReferences.length >= 2) {
+			throw new OAuthException("Multiple services registered for OAuth provider <" + providerName + ">");
 		}
 
 		return (OAuthParamsFactory) ctx.getService(oauthServiceReferences[0]);
 	}
 
-	private OAuthParams getOAuthParams(HttpServletRequest req, String type, boolean login) throws OAuthException{
+	private OAuthParams getOAuthParams(HttpServletRequest req, String type, boolean login) throws OAuthException {
 		oauthParams = getParamsFactory(type).getOAuthParams(req, login);
 		return getOAuthParams();
 	}

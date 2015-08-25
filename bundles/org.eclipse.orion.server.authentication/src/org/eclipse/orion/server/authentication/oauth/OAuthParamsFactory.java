@@ -24,4 +24,5 @@ public interface OAuthParamsFactory {
 
 	String getOAuthProviderName();
 
+	public static final String PROVIDER = "provider";
 }

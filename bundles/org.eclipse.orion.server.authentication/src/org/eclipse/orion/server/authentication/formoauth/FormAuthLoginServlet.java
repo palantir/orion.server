@@ -179,7 +179,7 @@ public class FormAuthLoginServlet extends HttpServlet {
 		String xRequestedWith = req.getHeader("X-Requested-With"); //$NON-NLS-1$
 
 		if (version == null && !"XMLHttpRequest".equals(xRequestedWith)) { //$NON-NLS-1$
-			String url = "/mixloginstatic/LoginWindow.html";
+			String url = FormAuthHelper.loginWindowURI();
 			if (req.getParameter("redirect") != null) {
 				url += "?redirect=" + req.getParameter("redirect");
 			}

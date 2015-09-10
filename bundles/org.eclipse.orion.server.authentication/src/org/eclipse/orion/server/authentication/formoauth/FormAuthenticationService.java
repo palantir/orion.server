@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.orion.server.authentication.Activator;
 import org.eclipse.orion.server.authentication.IAuthenticationService;
+import org.eclipse.orion.server.authentication.form.FormAuthHelper;
 import org.eclipse.orion.server.core.LogHelper;
 import org.eclipse.orion.server.core.ProtocolConstants;
 import org.json.JSONException;
@@ -64,12 +65,12 @@ public class FormAuthenticationService implements IAuthenticationService {
 		String xRequestedWith = req.getHeader("X-Requested-With"); //$NON-NLS-1$
 
 		if (version == null && !"XMLHttpRequest".equals(xRequestedWith)) { //$NON-NLS-1$
-			resp.sendRedirect(req.getContextPath() + "/mixloginstatic/LoginWindow.html?redirect=" + req.getRequestURL());
+			resp.sendRedirect(req.getContextPath() + FormAuthHelper.loginWindowURI() + "?redirect=" + req.getRequestURL());
 		} else {
 			resp.setContentType(ProtocolConstants.CONTENT_TYPE_JSON);
 			JSONObject result = new JSONObject();
 			try {
-				result.put("SignInLocation", req.getContextPath() + "/mixloginstatic/LoginWindow.html");
+				result.put("SignInLocation", req.getContextPath() + FormAuthHelper.loginWindowURI());
 				result.put("label", "Orion workspace server");
 				result.put("SignInKey", "FORMOAuthUser");
 			} catch (JSONException e) {

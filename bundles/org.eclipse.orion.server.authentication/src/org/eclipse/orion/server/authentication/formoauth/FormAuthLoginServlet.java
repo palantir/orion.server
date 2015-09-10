@@ -55,6 +55,10 @@ public class FormAuthLoginServlet extends HttpServlet {
 		String pathInfo = req.getPathInfo() == null ? "" : req.getPathInfo(); //$NON-NLS-1$
 
 		if (pathInfo.startsWith("/form")) { //$NON-NLS-1$
+			if (!FormAuthHelper.authRedirect().isEmpty()) {
+				displayError("You must autheniticate with " + FormAuthHelper.authRedirect(), req, resp);
+				return;
+			}
 			LoginResult authResult = FormAuthHelper.performAuthentication(req, resp);
 			if (authResult == LoginResult.OK) {
 				// redirection from

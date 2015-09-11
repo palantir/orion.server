@@ -54,7 +54,15 @@ public class FormAuthLoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String pathInfo = req.getPathInfo() == null ? "" : req.getPathInfo(); //$NON-NLS-1$
 
-		if (pathInfo.startsWith("/form")) { //$NON-NLS-1$
+		if (pathInfo.startsWith("/oauth") || (pathInfo.startsWith("/form") && !FormAuthHelper.authRedirect().isEmpty())) { //$NON-NLS-1$
+			try {
+				manageOAuthServlet.handleGetAndLogin(req, resp);
+				resp.setStatus(HttpServletResponse.SC_OK);
+			} catch (OAuthException e) {
+				displayError(e.getMessage(), req, resp);
+			}
+		}
+		else if (pathInfo.startsWith("/form")) { //$NON-NLS-1$
 			LoginResult authResult = FormAuthHelper.performAuthentication(req, resp);
 			if (authResult == LoginResult.OK) {
 				// redirection from
@@ -90,16 +98,7 @@ public class FormAuthLoginServlet extends HttpServlet {
 			}
 			return;
 		}
-		if (pathInfo.startsWith("/oauth")) {
-			try {
-				manageOAuthServlet.handleGetAndLogin(req, resp);
-				resp.setStatus(HttpServletResponse.SC_OK);
-			} catch (OAuthException e) {
-				displayError(e.getMessage(), req, resp);
-			}
-		}
-
-		if (pathInfo.startsWith("/canaddusers")) {
+		else if (pathInfo.startsWith("/canaddusers")) {
 			JSONObject jsonResp = new JSONObject();
 			try {
 				jsonResp.put("CanAddUsers", FormAuthHelper.canAddUsers());
@@ -111,8 +110,7 @@ public class FormAuthLoginServlet extends HttpServlet {
 			resp.setContentType("application/json");
 			return;
 		}
-
-		if (pathInfo.startsWith("/redirectinfo")) {
+		else if (pathInfo.startsWith("/redirectinfo")) {
 			JSONObject jsonResp = new JSONObject();
 			try {
 				jsonResp.put("AuthProvider", FormAuthHelper.authRedirect());
@@ -179,7 +177,7 @@ public class FormAuthLoginServlet extends HttpServlet {
 		String xRequestedWith = req.getHeader("X-Requested-With"); //$NON-NLS-1$
 
 		if (version == null && !"XMLHttpRequest".equals(xRequestedWith)) { //$NON-NLS-1$
-			String url = "/mixloginstatic/LoginWindow.html";
+			String url = FormAuthHelper.loginWindowURI();
 			if (req.getParameter("redirect") != null) {
 				url += "?redirect=" + req.getParameter("redirect");
 			}

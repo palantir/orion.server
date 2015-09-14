@@ -234,8 +234,11 @@ public class UserHandlerV1 extends ServletResourceHandler<String> {
 		}
 
 		if (userInfo != null) {
-			return statusHandler.handleRequest(req, resp, new ServerStatus(IStatus.ERROR, HttpServletResponse.SC_BAD_REQUEST, "User " + username
-					+ " already exists.", null));
+			String errorMessage = "User " + username + " already exists.";
+			if (!PreferenceHelper.getString(ServerConstants.CONFIG_AUTH_LANDING_REDIRECT_PROVIDER, "").isEmpty()) {
+				errorMessage += " Please contact the administrator.";
+			}
+			return statusHandler.handleRequest(req, resp, new ServerStatus(IStatus.ERROR, HttpServletResponse.SC_BAD_REQUEST, errorMessage, null));
 		}
 		if (email != null && email.length() > 0) {
 			if (!email.contains("@")) { //$NON-NLS-1$

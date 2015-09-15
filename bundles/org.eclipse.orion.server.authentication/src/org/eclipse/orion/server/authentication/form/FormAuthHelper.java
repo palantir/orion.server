@@ -115,7 +115,7 @@ public class FormAuthHelper {
 	 * landing page, or the empty string if none was specified in the config file.
 	 */
 	public static String authRedirect() {
-		return PreferenceHelper.getString(ServerConstants.CONFIG_AUTH_LANDING_REDIRECT_PROVIDER, "");
+		return PreferenceHelper.getString(ServerConstants.CONFIG_AUTH_SINGLE_PROVIDER, "");
 	}
 
 	/**

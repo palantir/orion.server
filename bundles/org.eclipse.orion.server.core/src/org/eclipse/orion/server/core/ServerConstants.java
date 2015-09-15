@@ -76,7 +76,7 @@ public class ServerConstants {
 	 * The name of a configuration property specifying the type of OAuth2 authentication provider to redirect to from the
 	 * landing page. If unspecified, no redirect will happen. If specified, it blocks the standard Orion authentication.
 	 */
-	public static final String CONFIG_AUTH_LANDING_REDIRECT_PROVIDER = "orion.auth.landing.redirect.provider"; //$NON_NLS-1$
+	public static final String CONFIG_AUTH_SINGLE_PROVIDER = "orion.oauth.single.provider"; //$NON_NLS-1$
 
 	/**
 	 * The name of a configuration property specifying is user email is mandatory while user creation. If

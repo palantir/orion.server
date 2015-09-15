@@ -235,7 +235,7 @@ public class UserHandlerV1 extends ServletResourceHandler<String> {
 
 		if (userInfo != null) {
 			String errorMessage = "User " + username + " already exists.";
-			if (!PreferenceHelper.getString(ServerConstants.CONFIG_AUTH_LANDING_REDIRECT_PROVIDER, "").isEmpty()) {
+			if (!PreferenceHelper.getString(ServerConstants.CONFIG_AUTH_SINGLE_PROVIDER, "").isEmpty()) {
 				errorMessage += " Please contact the administrator.";
 			}
 			return statusHandler.handleRequest(req, resp, new ServerStatus(IStatus.ERROR, HttpServletResponse.SC_BAD_REQUEST, errorMessage, null));

@@ -55,15 +55,11 @@ public class FormAuthLoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String pathInfo = req.getPathInfo() == null ? "" : req.getPathInfo(); //$NON-NLS-1$
 
-		if (pathInfo.startsWith("/oauth") || (pathInfo.startsWith("/form") && !FormAuthHelper.authRedirect().isEmpty())) { //$NON-NLS-1$
-			try {
-				manageOAuthServlet.handleGetAndLogin(req, resp);
-				resp.setStatus(HttpServletResponse.SC_OK);
-			} catch (OAuthException e) {
-				displayError(e.getMessage(), req, resp);
+		if (pathInfo.startsWith("/form")) { //$NON-NLS-1$
+			if (!FormAuthHelper.authRedirect().isEmpty()) {
+				displayError("You must authenticate with " + FormAuthHelper.authRedirect(), req, resp);
+				return;
 			}
-		}
-		else if (pathInfo.startsWith("/form")) { //$NON-NLS-1$
 			LoginResult authResult = FormAuthHelper.performAuthentication(req, resp);
 			if (authResult == LoginResult.OK) {
 				// redirection from
@@ -99,7 +95,16 @@ public class FormAuthLoginServlet extends HttpServlet {
 			}
 			return;
 		}
-		else if (pathInfo.startsWith("/canaddusers")) {
+		if (pathInfo.startsWith("/oauth")) {
+			try {
+				manageOAuthServlet.handleGetAndLogin(req, resp);
+				resp.setStatus(HttpServletResponse.SC_OK);
+			} catch (OAuthException e) {
+				displayError(e.getMessage(), req, resp);
+			}
+		}
+
+		if (pathInfo.startsWith("/canaddusers")) {
 			JSONObject jsonResp = new JSONObject();
 			try {
 				jsonResp.put("CanAddUsers", FormAuthHelper.canAddUsers());
@@ -111,7 +116,8 @@ public class FormAuthLoginServlet extends HttpServlet {
 			resp.setContentType("application/json");
 			return;
 		}
-		else if (pathInfo.startsWith("/redirectinfo")) {
+
+		if (pathInfo.startsWith("/redirectinfo")) {
 			JSONObject jsonResp = new JSONObject();
 			try {
 				jsonResp.put("AuthProvider", FormAuthHelper.authRedirect());

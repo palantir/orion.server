@@ -90,7 +90,8 @@ public class OAuthHelper {
 
 		String state = req.getParameter("state");
 		if (state == null || !state.equals(oauthParams.getState())) {
-			throw new OAuthException("The OAuth states do not match. Token provided by an unauthorized third party.");
+			throw new OAuthException("The OAuth states do not match. Token provided by an unauthorized third party. "
+					+ "Request details: " + req.getPathInfo() + "?" + req.getQueryString());
 		}
 
 		// Get the authorization code

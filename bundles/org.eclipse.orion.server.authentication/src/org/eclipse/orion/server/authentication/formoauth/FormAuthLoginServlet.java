@@ -100,6 +100,7 @@ public class FormAuthLoginServlet extends HttpServlet {
 				manageOAuthServlet.handleGetAndLogin(req, resp);
 				resp.setStatus(HttpServletResponse.SC_OK);
 			} catch (OAuthException e) {
+				LogHelper.log(e);
 				displayError(e.getMessage(), req, resp);
 			}
 		}

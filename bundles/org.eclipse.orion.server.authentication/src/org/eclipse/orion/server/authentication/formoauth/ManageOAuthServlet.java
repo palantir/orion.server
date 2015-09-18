@@ -122,12 +122,14 @@ public class ManageOAuthServlet extends HttpServlet {
 		}
 		if (oauthServiceReferences == null || oauthServiceReferences.length == 0) {
 			throw new OAuthException("Plug-in for OAuth provider <" + providerName + "> is not running");
-		}
-		else if (oauthServiceReferences.length >= 2) {
+		} else if (oauthServiceReferences.length >= 2) {
 			throw new OAuthException("Multiple services registered for OAuth provider <" + providerName + ">");
 		}
 
-		return (OAuthParamsFactory) ctx.getService(oauthServiceReferences[0]);
+		OAuthParamsFactory oAuthParamsFactory = ctx.getService(oauthServiceReferences[0]);
+		if (oAuthParamsFactory == null)
+			throw new OAuthException("Plug-in for OAuth provider <" + providerName + "> failed");
+		return oAuthParamsFactory;
 	}
 
 	private OAuthParams getOAuthParams(HttpServletRequest req, String type, boolean login) throws OAuthException {

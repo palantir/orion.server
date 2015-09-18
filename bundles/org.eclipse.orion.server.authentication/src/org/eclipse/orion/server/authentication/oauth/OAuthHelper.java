@@ -140,10 +140,13 @@ public class OAuthHelper {
 			if (!FormAuthHelper.canAddUsers()) {
 				throw new OAuthException("There is no Orion account associated with this Id. Please register or contact your system administrator for assistance.");
 			}
-			String url = "/mixloginstatic/LoginWindow.html";
+			String url = "/mixloginstatic/register.html";
 			url += "?oauth=create&email=" + oauthConsumer.getEmail();
 			url += "&username=" + oauthConsumer.getUsername();
 			url += "&identifier=" + oauthConsumer.getIdentifier();
+			if (!FormAuthHelper.authRedirect().isEmpty()) {
+				url += "&auto-register=true"; 
+			}
 			if (redirect != null)
 				url += "&redirect=" + redirect;
 			resp.sendRedirect(url);

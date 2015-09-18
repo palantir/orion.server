@@ -115,7 +115,7 @@ public class FormAuthHelper {
 	 * landing page, or the empty string if none was specified in the config file.
 	 */
 	public static String authRedirect() {
-		return PreferenceHelper.getString(ServerConstants.CONFIG_AUTH_LANDING_REDIRECT_PROVIDER, "");
+		return PreferenceHelper.getString(ServerConstants.CONFIG_AUTH_SINGLE_PROVIDER, "");
 	}
 
 	/**
@@ -138,12 +138,12 @@ public class FormAuthHelper {
 	}
 
 	/**
-	 * Returns a relative URI to the logging site. If OAuth2 redirection is set then an empty URI
+	 * Returns a relative URI to the login page. If OAuth2 redirection is set then an empty URI
 	 * is returned to allow the site to redirect.
 	 * @return String a URI to the logging site.
 	 */
 	public static String loginWindowURI() {
-		if(authRedirect().isEmpty()) {
+		if (authRedirect().isEmpty()) {
 			return ServerConstants.ORION_LOGIN_WINDOW_URI;
 		} else {
 			return "/"; //$NON-NLS-1$

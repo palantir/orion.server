@@ -76,7 +76,7 @@ public class ServerConstants {
 	 * The name of a configuration property specifying the type of OAuth2 authentication provider to redirect to from the
 	 * landing page. If unspecified, no redirect will happen. If specified, it blocks the standard Orion authentication.
 	 */
-	public static final String CONFIG_AUTH_LANDING_REDIRECT_PROVIDER = "orion.auth.landing.redirect.provider"; //$NON_NLS-1$
+	public static final String CONFIG_AUTH_SINGLE_PROVIDER = "orion.oauth.single.provider"; //$NON_NLS-1$
 
 	/**
 	 * The name of a configuration property specifying is user email is mandatory while user creation. If
@@ -190,7 +190,7 @@ public class ServerConstants {
 	public static final String PROP_CONFIG_FILE_LOCATION = "orion.core.configFile"; //$NON-NLS-1$
 
 	/**
-	 * The relative URI to the standard Orion logging site.
+	 * The relative URI to the standard Orion login page.
 	 */
 	public static final String ORION_LOGIN_WINDOW_URI = "/mixloginstatic/LoginWindow.html"; //$NON-NLS-1$
 }

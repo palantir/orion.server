@@ -36,7 +36,6 @@ public class ConfigurationServlet extends OrionServlet {
 		try {
 			requestObject = OrionServlet.readJSONRequest(req);
 		} catch (JSONException e) {
-			LogHelper.log(e);
 			handleException(e, resp);
 			return;
 		}
@@ -60,10 +59,12 @@ public class ConfigurationServlet extends OrionServlet {
 				try {
 					result.put(key, PreferenceHelper.getString(key, ""));
 				} catch (JSONException e) {
-					LogHelper.log(e);
+					handleException(e, resp);
+					return;
 				}
 			} else {
 				handleException(new RuntimeException("Invalid key: " + key), resp);
+				return;
 			}
 		}
 		writeJSONResponse(req, resp, result, null);

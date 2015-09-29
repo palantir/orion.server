@@ -24,7 +24,7 @@ public class ShellEnvironment {
 	private String getFullCommand(String commandType) throws NoSuchElementException {
 		commandType = commandType == null ? "" : commandType;
 		switch (commandType) {
-			case "python-doctest":
+			case "doctest":
 				return "python -m doctest -v";
 			default:
 				throw new NoSuchElementException("Command type unrecognized");
@@ -60,7 +60,7 @@ public class ShellEnvironment {
 			return 0;
 		} else {
 			process.destroy();
-			return process.waitFor();
+			return process.waitFor(); // TODO we are not sure if the process will terminate
 		}
 	}
 	

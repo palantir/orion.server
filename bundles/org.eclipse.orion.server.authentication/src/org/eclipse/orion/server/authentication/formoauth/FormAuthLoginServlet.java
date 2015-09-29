@@ -27,6 +27,7 @@ import org.eclipse.orion.server.authentication.oauth.OAuthException;
 import org.eclipse.orion.server.core.LogHelper;
 import org.eclipse.orion.server.core.OrionConfiguration;
 import org.eclipse.orion.server.core.PreferenceHelper;
+import org.eclipse.orion.server.core.ServerConstants;
 import org.eclipse.orion.server.core.metastore.UserInfo;
 import org.eclipse.orion.server.core.resources.Base64;
 import org.eclipse.orion.server.core.users.UserConstants;
@@ -55,6 +56,10 @@ public class FormAuthLoginServlet extends HttpServlet {
 		String pathInfo = req.getPathInfo() == null ? "" : req.getPathInfo(); //$NON-NLS-1$
 
 		if (pathInfo.startsWith("/form")) { //$NON-NLS-1$
+			if (!FormAuthHelper.authRedirect().isEmpty()) {
+				displayError("You must authenticate with " + FormAuthHelper.authRedirect(), req, resp);
+				return;
+			}
 			LoginResult authResult = FormAuthHelper.performAuthentication(req, resp);
 			if (authResult == LoginResult.OK) {
 				// redirection from
@@ -95,6 +100,7 @@ public class FormAuthLoginServlet extends HttpServlet {
 				manageOAuthServlet.handleGetAndLogin(req, resp);
 				resp.setStatus(HttpServletResponse.SC_OK);
 			} catch (OAuthException e) {
+				LogHelper.log(e);
 				displayError(e.getMessage(), req, resp);
 			}
 		}
@@ -179,7 +185,7 @@ public class FormAuthLoginServlet extends HttpServlet {
 		String xRequestedWith = req.getHeader("X-Requested-With"); //$NON-NLS-1$
 
 		if (version == null && !"XMLHttpRequest".equals(xRequestedWith)) { //$NON-NLS-1$
-			String url = "/mixloginstatic/LoginWindow.html";
+			String url = ServerConstants.ORION_LOGIN_WINDOW_URI;
 			if (req.getParameter("redirect") != null) {
 				url += "?redirect=" + req.getParameter("redirect");
 			}

@@ -55,7 +55,8 @@ public class GitUtils {
 	 * White list for URL schemes we can allow since they can't be used to gain access to git repositories in another Orion workspace since they require a
 	 * daemon to serve them. Especially file protocol needs to be prohibited (bug 408270).
 	 */
-	private static Set<String> uriSchemeWhitelist = new HashSet<String>(Arrays.asList("ftp", "git", "http", "https", "sftp", "ssh"));
+	// "file" is included as a hack for ORION-51. We trust our users enough that the convenience of using file protocol outweighs the loss of isolation.
+	private static Set<String> uriSchemeWhitelist = new HashSet<String>(Arrays.asList("file", "ftp", "git", "http", "https", "sftp", "ssh"));
 
 	/**
 	 * Returns the file representing the Git repository directory for the given file path or any of its parent in the filesystem. If the file doesn't exits, is

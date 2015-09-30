@@ -23,12 +23,10 @@ public class ShellEnvironment {
 	
 	private String getFullCommand(String commandType) throws NoSuchElementException {
 		commandType = commandType == null ? "" : commandType;
-		switch (commandType) {
-			case "doctest":
-				return "python -m doctest -v";
-			default:
-				throw new NoSuchElementException("Command type unrecognized");
-		}
+		if(commandType.equals("doctest"))
+			return "python -m doctest -v";
+		else
+			throw new NoSuchElementException("Command type unrecognized");
 	}
 	
 	private List<String> getLogs() {

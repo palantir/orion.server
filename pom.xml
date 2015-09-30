@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
    Copyright (C) 2013, 2015 SAP AG and others.
 
@@ -280,6 +281,8 @@
 		<module>bundles/org.eclipse.orion.server.core</module>
 		<module>bundles/org.eclipse.orion.server.servlets</module>
 		<module>bundles/org.eclipse.orion.server.authentication</module>
+		<module>bundles/org.eclipse.orion.server.authentication.google</module>
+		<module>bundles/org.eclipse.orion.server.authentication.github</module>
 		<module>bundles/org.eclipse.orion.server.git</module>
 		<module>bundles/org.eclipse.orion.server.cf</module>
 		<module>bundles/org.eclipse.orion.server.jetty</module>

@@ -149,7 +149,7 @@ public class CloneJob extends GitJob {
 						if (repoName.indexOf(".git") > 0) {
 							repoName = repoName.substring(0, repoName.lastIndexOf(".git"));
 						}
-						projectjson.put("Name", repoName + " at " + serverName);
+						projectjson.put("Name", repoName + (serverName.isEmpty() ? "" : " at " + serverName));
 						out.print(projectjson.toString());
 					} finally {
 						if (out != null)

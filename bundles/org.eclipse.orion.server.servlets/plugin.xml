@@ -51,10 +51,6 @@
             class="org.eclipse.orion.internal.server.servlets.metrics.GoogleAnalyticsServlet">
       </servlet>
       <servlet
-            alias="/exe"
-            class="org.eclipse.orion.internal.server.servlets.file.ExeServlet">
-      </servlet>
-      <servlet
             alias="/config"
             class="org.eclipse.orion.internal.server.servlets.plugin.ConfigurationServlet">
       </servlet>
@@ -135,10 +131,6 @@
       </filter>
       <filter
             alias="/task"
-            class="org.eclipse.orion.server.servlets.AuthorizedUserFilter">
-      </filter>
-      <filter
-            alias="/exe"
             class="org.eclipse.orion.server.servlets.AuthorizedUserFilter">
       </filter>
             <filter

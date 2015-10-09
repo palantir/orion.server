@@ -12,6 +12,7 @@ package org.eclipse.orion.internal.server.servlets.workspace;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -94,11 +95,14 @@ public class WorkspaceServlet extends OrionServlet {
 					return;
 				}
 
-				URI baseLocation = ServletResourceHandler.getURI(req);
+				URI baseLocation = new URI("orion", null, req.getServletPath() + path.uptoSegment(1), null, null); //$NON-NLS-1$
 				OrionServlet.writeJSONResponse(req, resp, ProjectInfoResourceHandler.toJSON(workspace, project, baseLocation));
 				return;
 			}
 		} catch (CoreException e) {
+			handleException(resp, "Error reading workspace metadata", e);
+			return;
+		} catch (URISyntaxException e) {
 			handleException(resp, "Error reading workspace metadata", e);
 			return;
 		}

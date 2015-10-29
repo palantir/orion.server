@@ -28,7 +28,7 @@ import org.eclipse.orion.server.servlets.OrionServlet;
  *
  * @author mwlodarczyk
  */
-public class ExecutionServlet extends OrionServlet {
+public final class ExecutionServlet extends OrionServlet {
 
 	private static final long serialVersionUID = 5345085797302519095L;
 
@@ -39,7 +39,7 @@ public class ExecutionServlet extends OrionServlet {
 	@Override	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		traceRequest(req);
-		if(!"true".equals(PreferenceHelper.getString(CONFIG_EXECUTION_ENABLED, ""))) { //$NON-NLS-1$
+		if(!"true".equals(PreferenceHelper.getString(CONFIG_EXECUTION_ENABLED, ""))) { //$NON-NLS-1$ //$NON-NLS-2$
 			displayError(req, resp, "Execution environment is disabled.");
 			return;
 		}
@@ -51,7 +51,7 @@ public class ExecutionServlet extends OrionServlet {
 		IFileStore configFileStore = null, argFileStore = null;
 
 		// the path's form is /workspaceName/projectName[/filePath]&command=(...)
-		if(!ShellEnvironment.CANCEL.equals(commandType)) {
+		if (!ShellEnvironment.CANCEL.equals(commandType)) {
 			try {
 				IFileStore project = getProjectStore(path);
 				configFileStore = project.getChild(CONFIG_FILE_NAME);
@@ -69,14 +69,34 @@ public class ExecutionServlet extends OrionServlet {
 
 		// get the project configuration
 		ExecutionConfiguration config = new ExecutionConfiguration();
-		if(configFileStore != null) {
+		if (configFileStore != null) {
 			try {
 				File configFile = configFileStore.toLocalFile(0, null);
-				if(configFile.isFile()) {
+				if (configFile.isFile()) {
 					config = new ExecutionConfiguration(configFile);
 					resp.getWriter().println("Configuration file loaded.\n");
 				} else {
 					resp.getWriter().println("Using default configuration.\n");
+				}
+			} catch (CoreException e) {
+				throw new RuntimeException(e);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		// perform the security filtering
+		if(!ShellEnvironment.CANCEL.equals(commandType)) {
+			try {
+				File argFile = argFileStore.toLocalFile(0, null);
+				if(!argFile.isFile()) {
+					displayError(req, resp, "The file does not exist.");
+					return;
+				}
+				String filterResult = PythonSecurityFilter.getInstance().doFilter(argFile);
+				if(!filterResult.isEmpty()) {
+					displayError(req, resp, filterResult);
+					return;
 				}
 			} catch (CoreException e) {
 				throw new RuntimeException(e);
@@ -107,7 +127,7 @@ public class ExecutionServlet extends OrionServlet {
 			throw new InvalidPathException(path.toString(), wrongProjectMsg);
 		} else {
 			ProjectInfo projectInfo = OrionConfiguration.getMetaStore().readProject(path.segment(0), path.segment(1));			
-			if(projectInfo == null) {
+			if (projectInfo == null) {
 				throw new InvalidPathException(path.toString(), wrongProjectMsg);
 			} else {	
 				return projectInfo.getProjectStore();

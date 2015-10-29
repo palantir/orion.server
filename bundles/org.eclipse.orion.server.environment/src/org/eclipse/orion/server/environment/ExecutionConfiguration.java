@@ -61,7 +61,7 @@ public final class ExecutionConfiguration {
 		try {
 			String line;
 			while ((line = reader.readLine()) != null) {
-				String parsed[] = line.split("#", -1)[0].split("=", -1); //$NON-NLS-1$
+				String parsed[] = line.split("#", -1)[0].split("=", -1); //$NON-NLS-1$ //$NON-NLS-2$
 				if (parsed.length == 2)
 					config.setProperty(parsed[0], parsed[1]);
 			}

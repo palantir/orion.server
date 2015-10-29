@@ -116,7 +116,9 @@ public final class ShellEnvironment {
 		if (CANCEL.equals(commandType)) {
 			cancel();
 		} else try {
-			List<String> args = new ArrayList<String>(Arrays.asList(getFullCommand(commandType, fileStore, config).split(" ")));
+				List<String> args = new ArrayList<String>(
+						Arrays.asList(getFullCommand(commandType, fileStore,
+								config).split(" "))); //$NON-NLS-1$
 			Process privateProcess;
 
 			synchronized (this) {

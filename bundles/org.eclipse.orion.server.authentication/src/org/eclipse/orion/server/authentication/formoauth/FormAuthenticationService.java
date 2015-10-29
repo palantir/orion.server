@@ -73,8 +73,9 @@ public class FormAuthenticationService implements IAuthenticationService {
 				result.put("SignInLocation", req.getContextPath() + FormAuthHelper.loginWindowURI());
 				result.put("label", "Orion workspace server");
 				result.put("SignInKey", "FORMOAuthUser");
+				result.put("status", HttpServletResponse.SC_UNAUTHORIZED);
 			} catch (JSONException e) {
-				LogHelper.log(new Status(IStatus.ERROR, Activator.PI_AUTHENTICATION_SERVLETS, 1, "An error occured during authenitcation", e));
+				LogHelper.log(new Status(IStatus.ERROR, Activator.PI_AUTHENTICATION_SERVLETS, 1, "An error occured during authentication", e));
 			}
 			resp.getWriter().print(result.toString());
 		}

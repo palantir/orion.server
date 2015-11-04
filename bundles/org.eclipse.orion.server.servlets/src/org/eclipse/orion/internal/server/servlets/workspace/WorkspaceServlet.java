@@ -98,6 +98,10 @@ public class WorkspaceServlet extends OrionServlet {
 				URI baseLocation = new URI("orion", null, req.getServletPath() + path.uptoSegment(1), null, null); //$NON-NLS-1$
 				OrionServlet.writeJSONResponse(req, resp, ProjectInfoResourceHandler.toJSON(workspace, project, baseLocation));
 				return;
+			} else {
+				String msg = "The workspace, project or file specified cannot be found";
+				handleException(resp, msg, null, HttpServletResponse.SC_NOT_FOUND);
+				return;
 			}
 		} catch (CoreException e) {
 			handleException(resp, "Error reading workspace metadata", e);

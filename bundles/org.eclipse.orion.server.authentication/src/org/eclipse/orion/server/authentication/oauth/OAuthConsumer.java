@@ -71,15 +71,15 @@ public abstract class OAuthConsumer implements OAuthToken {
 			.setAccessToken(getAccessToken())
 			.buildQueryMessage();
 		} catch (OAuthSystemException e1) {
-			throw new OAuthException("An error occured while authenticating the user");
+			throw new OAuthException("An error occured while authenticating the user: " + e1.getMessage(), e1);
 		}
 		OAuthResourceResponse response;
 		try {
 			response = oAuthClient.resource(request, OAuth.HttpMethod.GET, OAuthResourceResponse.class);
 		} catch (OAuthProblemException e) {
-			throw new OAuthException("An error occured while authenticating the user");
+			throw new OAuthException("An error occured while authenticating the user: " + e.getMessage(), e);
 		} catch (OAuthSystemException e) {
-			throw new OAuthException("An error occured while authenticating the user");
+			throw new OAuthException("An error occured while authenticating the user: " + e.getMessage(), e);
 		}
 		return response.getBody();
 	}

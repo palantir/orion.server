@@ -192,5 +192,5 @@ public class ServerConstants {
 	/**
 	 * The relative URI to the standard Orion login page.
 	 */
-	public static final String ORION_LOGIN_WINDOW_URI = "/mixloginstatic/LoginWindow.html"; //$NON-NLS-1$
+	public static final String ORION_LOGIN_WINDOW_URI = "../mixloginstatic/LoginWindow.html"; //$NON-NLS-1$
 }

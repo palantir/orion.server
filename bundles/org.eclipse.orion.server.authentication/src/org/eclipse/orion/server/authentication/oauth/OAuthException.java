@@ -30,4 +30,7 @@ public class OAuthException extends Exception {
 		super(cause.getMessage(), cause);
 	}
 
+	public OAuthException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }

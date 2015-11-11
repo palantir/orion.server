@@ -71,7 +71,7 @@ public abstract class OAuthParams {
 		try {
 			currentURL = new URL(OAuthHelper.getAuthServerRequest(req).toString());
 		} catch (MalformedURLException e) {
-			throw new OAuthException("An error occured while authenticating");
+			throw new OAuthException("An error occured while authenticating: " + e.getMessage(), e);
 		}
 	}
 
@@ -83,7 +83,7 @@ public abstract class OAuthParams {
 		try {
 			return new URL(currentURL.getProtocol(), currentURL.getHost(), currentURL.getPort(), PreferenceHelper.getString(ServerConstants.CONFIG_CONTEXT_PATH, ""));
 		} catch (MalformedURLException e) {
-			throw new OAuthException("An error occured while authenticating");
+			throw new OAuthException("An error occured while authenticating: " + e.getMessage(), e);
 		}
 	}
 

@@ -281,6 +281,7 @@
 		<module>bundles/org.eclipse.orion.server.servlets</module>
 		<module>bundles/org.eclipse.orion.server.authentication</module>
 		<module>bundles/org.eclipse.orion.server.git</module>
+		<module>bundles/org.eclipse.orion.server.snake</module>
 		<module>bundles/org.eclipse.orion.server.cf</module>
 		<module>bundles/org.eclipse.orion.server.jetty</module>
 		<module>bundles/org.eclipse.orion.server.jettycustomizer</module>

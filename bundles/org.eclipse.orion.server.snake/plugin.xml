@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.equinox.http.registry.servlets">
+      <servlet
+            alias="/snakeapi"
+            class="org.eclipse.orion.server.snake.servlets.SnakeServlet">
+      </servlet>
+      <serviceSelector
+            filter="(other.info=org.eclipse.orion)">
+      </serviceSelector>
+   </extension>
+   <extension
+         point="org.eclipse.equinox.http.registry.filters">
+      <filter
+            alias="/snakeapi"
+            class="org.eclipse.orion.server.servlets.LoggedInUserFilter">
+      </filter>
+      <serviceSelector
+            filter="(other.info=org.eclipse.orion)">
+      </serviceSelector>
+   </extension>
+   <extension
+         point="org.eclipse.equinox.http.registry.httpcontexts">
+      <httpcontext
+            id="org.eclipse.orion.server.httpcontext.snake">
+         <resource-mapping
+               bundle="org.eclipse.orion.client.snake"
+               path="/web/snake">
+         </resource-mapping>
+      </httpcontext>      
+   </extension>
+   <extension
+         point="org.eclipse.equinox.http.registry.resources">
+      <resource
+            alias="/snake"
+            httpcontextId="org.eclipse.orion.server.httpcontext.snake">
+      </resource>
+      <serviceSelector
+            filter="(other.info=org.eclipse.orion)">
+      </serviceSelector>
+   </extension>
+</plugin>

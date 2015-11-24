@@ -78,7 +78,7 @@
          </init-param>
          <init-param
                name="excludeMatches"
-               value="^/(file|hosted|gitapi)/.*">
+               value="^/(file|hosted|gitapi|snake)/.*">
          </init-param>
       </filter>
       <filter
@@ -102,7 +102,7 @@
          </init-param>
          <init-param
                name="excludeMatches"
-               value="^/(file|hosted|gitapi|requirejs)/.*">
+               value="^/(file|hosted|gitapi|requirejs|snake)/.*">
          </init-param>
       </filter>
       <filter
